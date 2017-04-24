@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">myapplication</string>
+    <string name="action_settings">Settings</string>
+    <string name="txt_tab2">Историю спиздили цигане</string>
+    <string name="textfieldPlaceholder">Введите слово или фразу</string>
+    <string name="translateButton">Перевести</string>
+    <string name="tab2">История</string>
+    <string name="tab1">Поиск</string>
+</resources>
