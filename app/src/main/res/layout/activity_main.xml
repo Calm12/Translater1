@@ -33,8 +33,7 @@
                     <EditText
                         android:id="@+id/editText"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.28"
+                        android:layout_height="90dp"
                         android:ems="10"
                         android:hint="@string/textfieldPlaceholder"
                         android:inputType="textPersonName"
@@ -48,22 +47,31 @@
                         android:text="@string/translateButton"
                         android:onClick="onClickBtnTranslate"/>
 
-                    <TextView
-                        android:id="@+id/textView2"
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="8sp"
-                        android:text=""
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_weight="0.61" />
+                        android:layout_height="101dp"
+                        android:layout_weight="0.59">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.61"
+                                android:scrollbars="vertical"
+                                android:text="" />
+                        </LinearLayout>
+                    </ScrollView>
 
                     <ToggleButton
                         android:id="@+id/toggleButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.05"
+                        android:layout_weight="0.07"
                         android:checked="false"
                         android:text="ToggleButton"
                         android:textOff="Русский -> English"

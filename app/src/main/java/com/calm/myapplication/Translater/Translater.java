@@ -1,7 +1,7 @@
 package com.calm.myapplication.Translater;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import com.calm.myapplication.Translater.TransportImpl.BufferedReaderTransport;
+import com.calm.myapplication.Translater.TransportImpl.OkHtmlTransport;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -14,16 +14,17 @@ public class Translater {
 
     private static final String DICTIONARY_URL = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup";
 
+    private Transport transport;
 
     public Translater(){
-
+        transport = new BufferedReaderTransport();
     }
 
 
 
     public String getTranslateJson(String lang, String text) throws IOException {
         StringBuilder json = new StringBuilder();
-        List          list = Transport.getHTML(getTranslateUrl(lang, text));
+        List          list = transport.getHTML(getTranslateUrl(lang, text));
         for(Object str : list){
             json.append((String) str);
         }
@@ -33,7 +34,7 @@ public class Translater {
 
     public String getDictionaryJson(String lang, String text) throws IOException {
         StringBuilder json = new StringBuilder();
-        List          list = Transport.getHTML(getDictionaryUrl(lang, text));
+        List          list = transport.getHTML(getDictionaryUrl(lang, text));
         for(Object str : list){
             json.append((String) str);
         }
@@ -44,11 +45,11 @@ public class Translater {
 
 
 
-    private String getTranslateUrl(String lang, String text){
+    public String getTranslateUrl(String lang, String text){
         return getTransBaseUrl() + "?key=" + Keys.getTranslateKey() + "&text=" + URLEncoder.encode(text) + "&lang=" + lang;
     }
 
-    private String getDictionaryUrl(String lang, String text){
+    public String getDictionaryUrl(String lang, String text){
         return getDictBaseUrl() + "?key=" + Keys.getDictionaryKey() + "&text=" + URLEncoder.encode(text) + "&lang=" + lang;
     }
 
