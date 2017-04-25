@@ -14,9 +14,14 @@ import android.widget.ToggleButton;
 
 import com.calm.myapplication.Translater.LangState;
 import com.calm.myapplication.Translater.Translater;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,9 +88,19 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
             //json = "Нет прав на подключение к интернету";
             e.printStackTrace();
         }
-        //JSONObject jsonObject = new JSONObject();
-        System.out.println(json);
-        tv.setText(json);
+
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject mainObject = parser.parse(json).getAsJsonObject();
+            String code = mainObject.get("text").getAsString();
+            tv.setText(code);
+        }
+        catch (Exception e) {
+            tv.setText(e.getCause().toString());
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
