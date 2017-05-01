@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.calm.myapplication.Cache.Cache;
+import com.calm.myapplication.Cache.CacheRecord;
 import com.calm.myapplication.Translater.LangState;
 import com.calm.myapplication.Translater.Translater;
 import com.google.gson.JsonArray;
@@ -32,12 +36,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     TabHost.TabSpec tabSpec;
     ToggleButton toogleButton;
     LangState langState;
     Translater translater;
+    Cache cache;
     TextView tv;
 
     @Override
@@ -67,8 +72,10 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
         toogleButton.setOnCheckedChangeListener(this);
 
         translater = new Translater();
+        cache = new Cache();
 
         tv = (TextView) findViewById(R.id.textView2);
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -80,11 +87,19 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
         EditText et = (EditText) findViewById(R.id.editText);
         String text = et.getText().toString();
         String json = "";
+
+        CacheRecord record = cache.search(text, lang);
+        if(record != null){
+            tv.setText(record.getResult());
+            return;
+        }
+
         try {
             json = translater.getTranslateJson(lang,text);
 
         }
         catch (SecurityException e) {
+            tv.setText(e.getClass().getName() + ": " + e.getMessage());
             //json = "Нет прав на подключение к интернету";
             e.printStackTrace();
         }
@@ -93,10 +108,11 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(json).getAsJsonObject();
             String code = mainObject.get("text").getAsString();
+            cache.insert(new CacheRecord(text, code, lang));
             tv.setText(code);
         }
         catch (Exception e) {
-            tv.setText(e.getCause().toString());
+            tv.setText("Ошибка. Возможно, отсутствует интернет-соединение.");
             e.printStackTrace();
         }
 

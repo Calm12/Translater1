@@ -1,5 +1,6 @@
 package com.calm.myapplication.Translater;
 
+import com.calm.myapplication.Cache.Cache;
 import com.calm.myapplication.Translater.TransportImpl.BufferedReaderTransport;
 import com.calm.myapplication.Translater.TransportImpl.OkHtmlTransport;
 
