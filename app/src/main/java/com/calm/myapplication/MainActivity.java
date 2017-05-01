@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     Translater translater;
     Cache cache;
     TextView tv;
+    public static String filesDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        filesDir = getFilesDir().toString();
 
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
         // инициализация

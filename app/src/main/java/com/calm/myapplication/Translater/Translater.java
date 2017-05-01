@@ -32,7 +32,9 @@ public class Translater {
         return json.toString();
     }
 
-
+    /**
+     * Для словарного перевода с вариантами
+     */
     public String getDictionaryJson(String lang, String text) throws IOException {
         StringBuilder json = new StringBuilder();
         List          list = transport.getHTML(getDictionaryUrl(lang, text));

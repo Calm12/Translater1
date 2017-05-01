@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.calm.myapplication.MainActivity;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -37,19 +39,20 @@ public class DataBase {
                 DriverManager.registerDriver((Driver) Class.forName("org.sqldroid.SQLDroidDriver").newInstance());
             }
             catch (Exception e) {
-                //System.err.println(e.getClass().getName() + ":  " + e.getMessage());
+                Log.e("DB", e.getClass().getName() + ":  " + e.getMessage());
             }
-            File appDir = new File("/data/user/0/com.calm.myapplication/files");//тут нужен динамический путь...
+            //String path = "/data/user/0/com.calm.myapplication/files";
+            String path = MainActivity.filesDir;
+            File appDir = new File(path);
             appDir.mkdir();
-            String jdbcUrl = "jdbc:sqldroid:/data/user/0/com.calm.myapplication/files/database.db";
-            Log.e("MyApp", jdbcUrl);
+            String jdbcUrl = "jdbc:sqldroid:" + path + "/database.db";
+            Log.e("jdbcUrl", jdbcUrl);
             try {
-                //connection = new org.sqldroid.SQLDroidDriver().connect("jdbc:sqldroid:" + DB_NAME , new Properties());
                 connection = new org.sqldroid.SQLDroidDriver().connect(jdbcUrl , new Properties());
                 return connection;
             }
             catch(Exception e) {
-                //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+                Log.e("DB", e.getClass().getName() + ": " + e.getMessage());
                 return null;
             }
         }
