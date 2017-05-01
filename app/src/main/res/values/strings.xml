@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">myapplication</string>
+    <string name="app_name">CTranslater</string>
     <string name="action_settings">Settings</string>
     <string name="txt_tab2">Истории пока нет</string>
     <string name="textfieldPlaceholder">Введите слово или фразу</string>

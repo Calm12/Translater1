@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
         catch (SecurityException e) {
             tv.setText(e.getClass().getName() + ": " + e.getMessage());
-            //json = "Нет прав на подключение к интернету";
+            tv.setText("Ошибка. Запрещен доступ к сети.");
             e.printStackTrace();
         }
 
