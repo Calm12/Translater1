@@ -1,5 +1,7 @@
 package com.calm.myapplication;
 
+import android.app.TabActivity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -8,10 +10,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.calm.myapplication.Cache.Cache;
@@ -36,13 +41,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends TabActivity implements CompoundButton.OnCheckedChangeListener {
 
     TabHost.TabSpec tabSpec;
     ToggleButton toogleButton;
     LangState langState;
     Translater translater;
-    Cache cache;
+    public static Cache cache;
     TextView tv;
     public static String filesDir;
 
@@ -52,9 +57,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         filesDir = getFilesDir().toString();
 
-        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        //TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
         // инициализация
-        tabHost.setup();
+        //tabHost.setup();
+        TabHost tabHost = getTabHost();
 
         tabSpec = tabHost.newTabSpec("tag1");
         tabSpec.setIndicator(getString(R.string.tab1));
@@ -63,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         tabSpec = tabHost.newTabSpec("tag2");
         tabSpec.setIndicator(getString(R.string.tab2));
-        tabSpec.setContent(R.id.tab2);
+        //tabSpec.setContent(R.id.tab2);
+        tabSpec.setContent(new Intent(this, HistoryActivity.class));
         tabHost.addTab(tabSpec);
 
-        // вторая вкладка по умолчанию активна
         tabHost.setCurrentTabByTag("tag1");
 
         langState = new LangState();
@@ -101,8 +107,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         }
         catch (SecurityException e) {
-            tv.setText(e.getClass().getName() + ": " + e.getMessage());
-            tv.setText("Ошибка. Запрещен доступ к сети.");
+            Toast.makeText(this, "Ошибка. Запрещен доступ к сети.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
@@ -110,11 +115,17 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(json).getAsJsonObject();
             String code = mainObject.get("text").getAsString();
-            cache.insert(new CacheRecord(text, code, lang));
+
+            CacheRecord newCacheRecord = new CacheRecord(text, code, lang);
+            cache.insert(newCacheRecord);
+
+            HistoryActivity.values.add(newCacheRecord);
+            //((HistoryActivity.CacheAdapter)HistoryActivity.values).notifyDataSetChanged();
+
             tv.setText(code);
         }
         catch (Exception e) {
-            tv.setText("Ошибка. Возможно, отсутствует интернет-соединение.");
+            Toast.makeText(this, "Ошибка. Возможно, отсутствует интернет-соединение.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
@@ -125,4 +136,5 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         langState.setState(isChecked);
     }
+
 }

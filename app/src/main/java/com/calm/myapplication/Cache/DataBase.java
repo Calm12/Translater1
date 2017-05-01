@@ -43,7 +43,7 @@ public class DataBase {
             }
             //String path = "/data/user/0/com.calm.myapplication/files";
             String path = MainActivity.filesDir;
-            File appDir = new File(path);
+            File appDir = new File(path); // затычка, без нее не хочет создавать файл базы. возможно просто не было папки files
             appDir.mkdir();
             String jdbcUrl = "jdbc:sqldroid:" + path + "/database.db";
             Log.e("jdbcUrl", jdbcUrl);
