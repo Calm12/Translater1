@@ -1,5 +1,7 @@
 package com.calm.myapplication.Cache;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +28,7 @@ public class Cache {
             stmt.close();
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
@@ -43,7 +45,7 @@ public class Cache {
             return true;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return false;
         }
     }
@@ -70,7 +72,7 @@ public class Cache {
             return ret;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return null;
         }
     }
@@ -96,7 +98,7 @@ public class Cache {
             return list;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -122,7 +124,7 @@ public class Cache {
             return list;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -139,7 +141,7 @@ public class Cache {
             return true;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return false;
         }
     }
@@ -156,7 +158,7 @@ public class Cache {
             return true;
         }
         catch(SQLException e) {
-            //System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
             return false;
         }
     }
