@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,16 +33,16 @@ public class HistoryActivity extends ListActivity {
 
     }
 
-     @Override
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
-        Toast.makeText(this, item + " добавлен в избранное", Toast.LENGTH_LONG).show();
+         CacheRecord item = (CacheRecord) getListAdapter().getItem(position);
+        Toast.makeText(this, item.getQuery() + " добавлен в избранное", Toast.LENGTH_LONG).show();
     }
 
     public class CacheAdapter extends ArrayAdapter<CacheRecord> {
 
         public CacheAdapter(Context context) {
-            super(context, android.R.layout.simple_list_item_2, values);
+            super(context, R.layout.list_item, values);
         }
 
         @Override
@@ -49,10 +50,12 @@ public class HistoryActivity extends ListActivity {
             CacheRecord cacheRecord = getItem(position);
 
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, null);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
             }
-            ((TextView) convertView.findViewById(android.R.id.text1)).setText(cacheRecord.getQuery());
-            ((TextView) convertView.findViewById(android.R.id.text2)).setText(cacheRecord.getResult());
+            ((TextView) convertView.findViewById(R.id.query)).setText(cacheRecord.getQuery());
+            ((TextView) convertView.findViewById(R.id.result)).setText(cacheRecord.getResult());
+            ((CheckBox)convertView.findViewById(R.id.checkBox)).setChecked(cacheRecord.getFavorite() == 1);
+
             return convertView;
         }
     }
