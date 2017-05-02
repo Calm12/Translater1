@@ -139,11 +139,12 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
 
         }
         catch (Exception e) {
-            Toast.makeText(this, "Ошибка. Возможно, отсутствует интернет-соединение.", Toast.LENGTH_SHORT).show();
-            Log.e("Main", e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
+            if(!(e instanceof NullPointerException)){//затычка. не хочу переносить инициализацию списка кэша в мейн. а сам он не хочет инициализироваться, пока не перейдешь на вкладку кэша
+                Toast.makeText(this, "Ошибка. Возможно, отсутствует интернет-соединение.", Toast.LENGTH_SHORT).show();
+                Log.e("Main", e.getClass().getName() + ": " + e.getMessage());
+                e.printStackTrace();
+            }
         }
-
 
     }
 
