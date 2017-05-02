@@ -3,7 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="textfieldPlaceholder">Введите слово или фразу</string>
     <string name="translateButton">Перевести</string>
+    <string name="tab3">Избрано</string>
     <string name="tab2">История</string>
     <string name="tab1">Поиск</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
 </resources>

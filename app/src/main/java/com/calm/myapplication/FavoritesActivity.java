@@ -14,15 +14,15 @@ import android.widget.Toast;
 
 import com.calm.myapplication.Cache.CacheRecord;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends ListActivity {
+public class FavoritesActivity extends ListActivity {
 
     public static List<CacheRecord> values;
+    ArrayAdapter<CacheRecord> adapter;
 
-    public HistoryActivity(){
-        values = MainActivity.cache.selectAll();
+    public FavoritesActivity(){
+        values = MainActivity.cache.selectFavorites();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        ArrayAdapter<CacheRecord> adapter = new CacheAdapter(this);
+        adapter = new CacheAdapter(this);
         setListAdapter(adapter);
 
     }
@@ -38,18 +38,11 @@ public class HistoryActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         CacheRecord item = (CacheRecord) getListAdapter().getItem(position);
-        if(item.getFavorite() == 0){
-            MainActivity.cache.setFavorite(item.getId());
-            item.setFavorite(1);
-            FavoritesActivity.values.add(item);
-            Toast.makeText(this, item.getQuery() + " добавлен в избранное", Toast.LENGTH_LONG).show();
-        }
-        else{
-            MainActivity.cache.setUnFavorite(item.getId());
-            item.setFavorite(0);
-            FavoritesActivity.values.remove(item);
-            Toast.makeText(this, item.getQuery() + " удален из избранного", Toast.LENGTH_LONG).show();
-        }
+        MainActivity.cache.setUnFavorite(item.getId());//да, чтото кривое дао вышло
+        item.setFavorite(0);//я и не заметил, как до такого дошло
+        FavoritesActivity.values.remove(item);
+        Toast.makeText(this, item.getQuery() + " удален из избранного", Toast.LENGTH_LONG).show();
+        adapter.notifyDataSetChanged();
     }
 
     public class CacheAdapter extends ArrayAdapter<CacheRecord> {

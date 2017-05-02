@@ -2,9 +2,15 @@ package com.calm.myapplication;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +60,7 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         filesDir = getFilesDir().toString();
 
@@ -69,8 +76,12 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
 
         tabSpec = tabHost.newTabSpec("tag2");
         tabSpec.setIndicator(getString(R.string.tab2));
-        //tabSpec.setContent(R.id.tab2);
         tabSpec.setContent(new Intent(this, HistoryActivity.class));
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("tag3");
+        tabSpec.setIndicator(getString(R.string.tab3));//android.R.drawable.btn_star
+        tabSpec.setContent(new Intent(this, FavoritesActivity.class));
         tabHost.addTab(tabSpec);
 
         tabHost.setCurrentTabByTag("tag1");
@@ -89,12 +100,15 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
         StrictMode.setThreadPolicy(policy);
     }
 
-
     public void onClickBtnTranslate(View v) throws IOException {
         String lang = langState.getLang();
         EditText et = (EditText) findViewById(R.id.editText);
         String text = et.getText().toString();
         String json = "";
+
+        if(text.length() == 0){
+            return;
+        }
 
         CacheRecord record = cache.search(text, lang);
         if(record != null){
@@ -116,16 +130,17 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
             JsonObject mainObject = parser.parse(json).getAsJsonObject();
             String code = mainObject.get("text").getAsString();
 
+            tv.setText(code);
             CacheRecord newCacheRecord = new CacheRecord(text, code, lang);
             cache.insert(newCacheRecord);
 
             HistoryActivity.values.add(newCacheRecord);
             //((HistoryActivity.CacheAdapter)HistoryActivity.values).notifyDataSetChanged();
 
-            tv.setText(code);
         }
         catch (Exception e) {
             Toast.makeText(this, "Ошибка. Возможно, отсутствует интернет-соединение.", Toast.LENGTH_SHORT).show();
+            Log.e("Main", e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
 

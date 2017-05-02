@@ -146,6 +146,23 @@ public class Cache {
         }
     }
 
+    public boolean setUnFavorite(int id){
+        try {
+            Connection c    = DataBase.getInstance().getConnection();
+            c.setAutoCommit(false);
+            Statement stmt = c.createStatement();
+            stmt.executeUpdate("UPDATE query_cache SET favorite = 0 WHERE id = " + id);
+            c.commit();
+            stmt.close();
+
+            return true;
+        }
+        catch(SQLException e) {
+            Log.e("Cache", e.getClass().getName() + ": " + e.getMessage());
+            return false;
+        }
+    }
+
     public boolean clean(){
         try {
             Connection c    = DataBase.getInstance().getConnection();
