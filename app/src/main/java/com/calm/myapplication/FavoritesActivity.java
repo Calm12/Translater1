@@ -18,17 +18,21 @@ import java.util.List;
 
 public class FavoritesActivity extends ListActivity {
 
-    public static List<CacheRecord> values;
+    public static List<CacheRecord> values = null;
     ArrayAdapter<CacheRecord> adapter;
 
-    public FavoritesActivity(){
+    /*public FavoritesActivity(){
         values = MainActivity.cache.selectFavorites();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        if(values == null){
+            values = MainActivity.cache.selectFavorites();
+        }
 
         adapter = new CacheAdapter(this);
         setListAdapter(adapter);

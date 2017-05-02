@@ -93,6 +93,9 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
         translater = new Translater();
         cache = new Cache();
 
+        HistoryActivity.values = MainActivity.cache.selectAll();
+        FavoritesActivity.values = MainActivity.cache.selectFavorites();
+
         tv = (TextView) findViewById(R.id.textView2);
 
 
@@ -139,10 +142,13 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
 
         }
         catch (Exception e) {
-            if(!(e instanceof NullPointerException)){//затычка. не хочу переносить инициализацию списка кэша в мейн. а сам он не хочет инициализироваться, пока не перейдешь на вкладку кэша
+            if(!(e instanceof NullPointerException)){
                 Toast.makeText(this, "Ошибка. Возможно, отсутствует интернет-соединение.", Toast.LENGTH_SHORT).show();
                 Log.e("Main", e.getClass().getName() + ": " + e.getMessage());
                 e.printStackTrace();
+            }
+            else{
+                Log.e("Main", e.getClass().getName() + ": " + e.getMessage());
             }
         }
 

@@ -21,14 +21,18 @@ public class HistoryActivity extends ListActivity {
 
     public static List<CacheRecord> values;
 
-    public HistoryActivity(){
+    /*public HistoryActivity(){
         values = MainActivity.cache.selectAll();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        if(values == null){
+            values = MainActivity.cache.selectAll();
+        }
 
         ArrayAdapter<CacheRecord> adapter = new CacheAdapter(this);
         setListAdapter(adapter);
