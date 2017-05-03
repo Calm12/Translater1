@@ -20,6 +20,7 @@ import java.util.List;
 public class HistoryActivity extends ListActivity {
 
     public static List<CacheRecord> values;
+    public static ArrayAdapter<CacheRecord> adapter;
 
     /*public HistoryActivity(){
         values = MainActivity.cache.selectAll();
@@ -34,7 +35,7 @@ public class HistoryActivity extends ListActivity {
             values = MainActivity.cache.selectAll();
         }
 
-        ArrayAdapter<CacheRecord> adapter = new CacheAdapter(this);
+        adapter = new CacheAdapter(this);
         setListAdapter(adapter);
 
     }
@@ -54,6 +55,7 @@ public class HistoryActivity extends ListActivity {
             FavoritesActivity.values.remove(item);
             Toast.makeText(this, item.getQuery() + " удален из избранного", Toast.LENGTH_LONG).show();
         }
+        FavoritesActivity.adapter.notifyDataSetChanged();
     }
 
     public class CacheAdapter extends ArrayAdapter<CacheRecord> {

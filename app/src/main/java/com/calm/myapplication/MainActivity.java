@@ -138,7 +138,7 @@ public class MainActivity extends TabActivity implements CompoundButton.OnChecke
             cache.insert(newCacheRecord);
 
             HistoryActivity.values.add(newCacheRecord);
-            //((HistoryActivity.CacheAdapter)HistoryActivity.values).notifyDataSetChanged();
+            HistoryActivity.adapter.notifyDataSetChanged();
 
         }
         catch (Exception e) {

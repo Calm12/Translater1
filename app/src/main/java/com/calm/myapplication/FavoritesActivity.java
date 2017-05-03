@@ -19,7 +19,7 @@ import java.util.List;
 public class FavoritesActivity extends ListActivity {
 
     public static List<CacheRecord> values = null;
-    ArrayAdapter<CacheRecord> adapter;
+    public static ArrayAdapter<CacheRecord> adapter;
 
     /*public FavoritesActivity(){
         values = MainActivity.cache.selectFavorites();
